@@ -143,7 +143,7 @@ User-authorship is a double-edged sword: autonomy-supportive, but requires cogni
 iOS restricts apps to **64 total locally scheduled notifications** (and 20 location-based). Todoist had to build a custom scheduler workaround for this exact problem. ([doist.dev][11])
 
 **Mitigation:** build scheduling like a **queue, not a naive calendar**:
-* Store all reminders locally in SwiftData
+* Store all schedules locally in the database (sqflite for this Flutter project — not SwiftData, which is Swift/native only)
 * Schedule only the next N imminent notifications
 * Reschedule aggressively on every app open
 * Design graceful degradation if notifications are denied entirely

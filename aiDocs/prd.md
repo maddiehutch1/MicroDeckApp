@@ -113,23 +113,37 @@ The onboarding experience IS the first use of the product. The goal: get the use
 
 **Flow:**
 ```
-Screen 1 — Single question, full screen, minimal
-"What's one thing you've been meaning to start
-but keep putting off?"
-[text field — verb-first placeholder: "e.g. Put on my running shoes"]
+Screen 0 — Welcome (first launch only)
+App name + tagline: "Start the thing you keep putting off."
+Sub-line: "One card. Two minutes. That's it."
+[Let's begin →]
 
-Screen 2 — One confirmation
+Screen 1A — Goal
+"What do you want to work toward?"
+[text field — open placeholder: "e.g. Run more often · Sleep better · Write regularly"]
+[Next →]
+
+Screen 1B — Action (goal shown faintly above as context)
+"What's one tiny thing that starts it?"
+[text field — verb-first placeholder: "e.g. Put on my running shoes"]
+[Let's go →]
+
+Screen 2 — Confirmation
 "Good. Let's do two minutes of it right now."
-[Start]   [Save for later]
+User's typed action label shown back to them
+[Start now]   [Save for later]
 
 Screen 3 — Timer
 Full screen, dark background, pulsing dot, countdown
-No UI chrome. No back button during session.
+No UI chrome. No back button during active session.
 
 Completion — Haptic + one line
 "That's it. You started."
-[soft explainer: what just happened and why it works — skippable]
+[soft explainer: what just happened and why it works — skippable, post-MVP]
 ```
+
+**Why two onboarding questions (not one):**
+Separating goal from action mirrors implementation intention research (Gollwitzer 1999) — the goal→action link is made explicit and visible. The user sees their goal faintly above the action field on Screen 1B, reinforcing that the tiny action *serves* something they care about. This is more effective than a single "what do you want to do?" prompt.
 
 **Onboarding rules:**
 - No account creation
