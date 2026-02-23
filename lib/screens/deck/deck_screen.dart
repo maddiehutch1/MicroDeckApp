@@ -79,13 +79,8 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
         ),
         builder: (_) => _ArchivePromptSheet(
           card: card,
-          onRest: () {
-            Navigator.of(context).pop();
-            ref.read(cardsProvider.notifier).archiveCard(card.id);
-          },
-          onKeep: () {
-            Navigator.of(context).pop();
-          },
+          onRest: () =>
+              ref.read(cardsProvider.notifier).archiveCard(card.id),
         ),
       );
     });
@@ -216,9 +211,12 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
                 label: 'Settings',
                 button: true,
                 child: IconButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const SettingsScreen()),
-                  ),
+                  onPressed: () async {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                    );
+                    if (mounted) await _onLoad();
+                  },
                   icon: const Icon(
                     Icons.tune,
                     color: AppColors.textFaint,
@@ -491,12 +489,10 @@ class _ArchivePromptSheet extends StatelessWidget {
   const _ArchivePromptSheet({
     required this.card,
     required this.onRest,
-    required this.onKeep,
   });
 
   final CardModel card;
   final VoidCallback onRest;
-  final VoidCallback onKeep;
 
   @override
   Widget build(BuildContext context) {
@@ -519,7 +515,10 @@ class _ArchivePromptSheet extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed: onRest,
+              onPressed: () {
+                Navigator.of(context).pop();
+                onRest();
+              },
               child: const Text('Rest it'),
             ),
           ),
@@ -527,7 +526,7 @@ class _ArchivePromptSheet extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: TextButton(
-              onPressed: onKeep,
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('Keep it'),
             ),
           ),

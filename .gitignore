@@ -21,7 +21,11 @@ build/
 .pub/
 .pub-cache/
 .packages
-pubspec.lock
+# pubspec.lock is intentionally tracked — this is an app, not a package.
+# Committing the lock file ensures reproducible builds across machines.
+
+# Flutter debug logs (local only)
+flutter_*.log
 
 # Flutter plugin registries (auto-generated)
 .flutter-plugins
