@@ -397,14 +397,46 @@ These are not aesthetic guidelines — they are decision filters. When a design 
 
 These metrics exist for internal product validation, not user-facing tracking.
 
+### 7.1 Quantitative Metrics
+
 | Metric | Target | Why It Matters |
 |---|---|---|
 | **Activation rate** | ≥ 60% of installs complete 1 card in session 1 | Core validation gate — product wins or loses here |
-| **Day 7 retention** | ≥ 25% of activated users return on day 7 | Validates retention without streaks |
+| **Time-to-first-completion** | Cold launch → haptic in < 90 seconds | Validates onboarding friction is low enough to not lose users before the first win |
+| **Day 7 retention** | ≥ 25% of activated users return on day 7 | Validates retention without streaks — the hardest metric to hit without conventional retention levers |
+| **Session abandon rate** | ≤ 20% of started timers | High abandon = timer UX or duration issue |
+| **Weekly initiation frequency** | Users report app helped them start a difficult task on ≥ 3 days/week | Measures whether the app generalizes beyond novelty into regular stuck moments |
+| **Repeated card use quality** | ≥ 40% of returning users create a second card within 7 days | New card creation signals the habit of breaking down tasks is generalizing; single-card reuse and churn are tracked separately as distinct outcomes |
 | **Notification opt-in rate** | ≥ 40% (asked post-first-win) | Timing of ask matters — this validates placement |
 | **Pro conversion rate** | ≥ 8% of activated users | Validates freemium model and paywall placement |
-| **Session abandon rate** | ≤ 20% of started timers | High abandon = timer UX or duration issue |
 | **Archiving prompt acceptance** | ≥ 30% choose "Rest it" | Validates compassionate archiving language |
+
+### 7.2 Qualitative & Behavioral Metrics
+
+*Measured via pre/post survey in user research sessions. All items use a 1–7 Likert scale unless noted.*
+
+| Metric | Measurement Method | Why It Matters |
+|---|---|---|
+| **Task initiation success** | Pre-session: user rates target task difficulty (1–7). Post-session: did they start it? | Core validation — confirms the app helps with genuinely hard-to-start tasks, not easy ones |
+| **Overwhelm reduction** | Pre/post: "How overwhelmed do you feel when trying to start a task you've been putting off?" | Primary pain point for the target audience; reduction validates the product is addressing the real problem |
+| **Guilt and shame reduction** | Pre/post: "When you don't start a goal, how much shame do you feel?" | Directly tests whether the no-judgment design philosophy is felt by users; one of the strongest differentiators from competitor tools |
+| **Perceived initiation self-efficacy** | Pre/post: "How much control do you feel over your ability to start tasks you want to do?" | More sensitive than broad locus of control; tracks whether the product shifts felt agency around initiation |
+| **Emotional response at haptic completion** | Post-session open prompt: "How did you feel when the timer ended?" | The haptic moment is the product's core ritual — relief, calm, or surprise at simplicity are the target responses; absence of these is a product signal |
+| **Differentiation perception** | Post-session: "How different does this feel from other habit or productivity apps you've tried? (1–7)" | Existential signal — if users score below 5, the product is not landing its positioning regardless of other metrics |
+
+---
+
+## 7.3 Failure Indicators
+
+*These signal that the product is not achieving its purpose. Each has a defined measurement approach.*
+
+| Indicator | How to Detect | What It Means |
+|---|---|---|
+| **"Feels like any other tool"** | Differentiation perception score < 5/7 in post-session survey | Product is not landing its core positioning; a design or framing problem, not a marketing one |
+| **No reduction in overwhelm** | Pre/post overwhelm scores unchanged or worsened after using the app | The initiation mechanic is not reducing the friction it is designed to address |
+| **Default back to other tools** | Follow-up question: "When you were stuck this week, what did you reach for first?" — answer is not Micro-Deck | App is not becoming the reflexive response to stuck moments; may indicate insufficient habit formation or weak notification hook |
+| **Download but inactive** | Users install, open once, and do not return within 7 days without re-engagement | App is not producing felt relief strong enough to create a return reason; activation experience needs investigation |
+| **"Too simple to pay for"** | Post-session: "What would you expect to pay for something like this?" returns $0 or "nothing" | Perceived value ceiling is below the Pro price point; free tier may be too complete or Pro features not meaningful enough |
 
 ---
 
