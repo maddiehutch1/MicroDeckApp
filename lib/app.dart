@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screens/deck/deck_screen.dart';
 import 'screens/welcome/welcome_screen.dart';
+import 'services/app_logger.dart';
 import 'theme.dart';
 
 class App extends StatefulWidget {
@@ -26,9 +27,11 @@ class _AppState extends State<App> {
     try {
       final prefs = SharedPreferencesAsync();
       done = await prefs.getBool('hasCompletedOnboarding') ?? false;
-    } catch (_) {
+    } catch (e) {
       // Default to onboarding on any prefs failure — safe fallback
+      appLog.warning('_loadOnboardingFlag failed, defaulting to onboarding', e);
     }
+    appLog.info('cold launch → hasCompletedOnboarding=$done');
     setState(() => _hasCompletedOnboarding = done);
   }
 

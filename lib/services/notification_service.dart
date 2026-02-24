@@ -6,6 +6,7 @@ import '../data/models/card_model.dart';
 import '../data/models/schedule_model.dart';
 import '../data/repositories/card_repository.dart';
 import '../data/repositories/schedule_repository.dart';
+import 'app_logger.dart';
 
 /// Max notifications to register at once — iOS hard limit is 64.
 const int _kMaxScheduled = 40;
@@ -52,6 +53,7 @@ class NotificationService {
       onDidReceiveNotificationResponse: _onNotificationTap,
     );
     _initialized = true;
+    notificationLog.info('NotificationService initialised');
   }
 
   void _onNotificationTap(NotificationResponse response) {
@@ -72,7 +74,9 @@ class NotificationService {
         badge: true,
         sound: true,
       );
-      return granted ?? false;
+      final result = granted ?? false;
+      notificationLog.info('iOS permission request → granted=$result');
+      return result;
     }
 
     final android = _plugin
@@ -81,9 +85,14 @@ class NotificationService {
         >();
     if (android != null) {
       final granted = await android.requestNotificationsPermission();
-      return granted ?? false;
+      final result = granted ?? false;
+      notificationLog.info('Android permission request → granted=$result');
+      return result;
     }
 
+    notificationLog.warning(
+      'requestPermission: no platform implementation found',
+    );
     return false;
   }
 
@@ -94,7 +103,12 @@ class NotificationService {
     await _plugin.cancelAll();
 
     final schedules = await ScheduleRepository().getAllActiveSchedules();
-    if (schedules.isEmpty) return;
+    if (schedules.isEmpty) {
+      notificationLog.fine(
+        'rescheduleAll: no active schedules, nothing to register',
+      );
+      return;
+    }
 
     final cardRepo = CardRepository();
     final upcoming = <_ScheduledInstance>[];
@@ -131,6 +145,11 @@ class NotificationService {
         payload: instance.card.id,
       );
     }
+
+    notificationLog.info(
+      'rescheduleAll: registered ${toRegister.length} notification(s) '
+      'across ${schedules.length} schedule(s)',
+    );
   }
 
   /// Computes up to [count] future occurrences for a schedule.

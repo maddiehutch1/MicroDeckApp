@@ -1,3 +1,4 @@
+import '../../services/app_logger.dart';
 import '../database.dart';
 import '../models/card_model.dart';
 
@@ -5,6 +6,7 @@ class CardRepository {
   Future<void> insertCard(CardModel card) async {
     final db = await getDatabase();
     await db.insert('cards', card.toMap());
+    cardRepoLog.info('insertCard id=${card.id} action="${card.actionLabel}"');
   }
 
   Future<List<CardModel>> getAllCards() async {
@@ -14,7 +16,9 @@ class CardRepository {
       where: 'isArchived = 0',
       orderBy: 'sortOrder ASC, createdAt ASC',
     );
-    return rows.map(CardModel.fromMap).toList();
+    final cards = rows.map(CardModel.fromMap).toList();
+    cardRepoLog.fine('getAllCards → ${cards.length} active cards');
+    return cards;
   }
 
   Future<List<CardModel>> getAllArchivedCards() async {
@@ -24,7 +28,9 @@ class CardRepository {
       where: 'isArchived = 1',
       orderBy: 'createdAt DESC',
     );
-    return rows.map(CardModel.fromMap).toList();
+    final cards = rows.map(CardModel.fromMap).toList();
+    cardRepoLog.fine('getAllArchivedCards → ${cards.length} archived cards');
+    return cards;
   }
 
   Future<void> deleteCard(String id) async {
@@ -32,6 +38,9 @@ class CardRepository {
     await db.delete('cards', where: 'id = ?', whereArgs: [id]);
     await db.delete('deferrals', where: 'cardId = ?', whereArgs: [id]);
     await db.delete('schedules', where: 'cardId = ?', whereArgs: [id]);
+    cardRepoLog.info(
+      'deleteCard id=$id (card + deferrals + schedules removed)',
+    );
   }
 
   Future<void> archiveCard(String id) async {
@@ -42,6 +51,7 @@ class CardRepository {
       where: 'id = ?',
       whereArgs: [id],
     );
+    cardRepoLog.info('archiveCard id=$id → isArchived=1');
   }
 
   Future<void> restoreCard(String id) async {
@@ -60,6 +70,7 @@ class CardRepository {
       where: 'id = ?',
       whereArgs: [id],
     );
+    cardRepoLog.info('restoreCard id=$id → sortOrder=$maxSort');
   }
 
   /// Moves card to bottom of deck and records a deferral.
@@ -83,6 +94,9 @@ class CardRepository {
       'cardId': id,
       'deferredAt': DateTime.now().millisecondsSinceEpoch,
     });
+    cardRepoLog.info(
+      'deferCard id=$id → moved to sortOrder=$maxSort, deferral recorded',
+    );
   }
 
   /// Returns deferral count for a card in the past [withinMs] milliseconds.
@@ -115,7 +129,14 @@ class CardRepository {
     ''',
       [since],
     );
-    return rows.map(CardModel.fromMap).toList();
+    final candidates = rows.map(CardModel.fromMap).toList();
+    if (candidates.isNotEmpty) {
+      cardRepoLog.info(
+        'getCardsNeedingArchivePrompt → ${candidates.length} candidate(s): '
+        '${candidates.map((c) => c.id).join(', ')}',
+      );
+    }
+    return candidates;
   }
 
   Future<int> getActiveCardCount() async {
