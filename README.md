@@ -1,1 +1,3 @@
-# HabitHelpApp
+# Micro-Deck App
+
+Micro-Deck is a minimalist habit initiation tool for iOS — not a tracker, blocker, or planner. It helps users with ADHD, executive dysfunction, or digital burnout bridge the intention-behavior gap by reducing the friction of starting a habit. Core mechanic: a personal deck of user-authored micro-action cards (e.g. "Put on running shoes"), each tied to a 2-minute full-screen timer that ends with a haptic pulse. No streaks, no history, no accounts, no gamification.
