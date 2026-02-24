@@ -5,12 +5,10 @@ import '../../data/models/card_model.dart';
 import '../../data/templates.dart';
 import '../../providers/cards_provider.dart';
 import '../../routes.dart';
-import '../../services/purchase_service.dart';
 import '../../theme.dart';
 import '../settings/settings_screen.dart';
 import '../timer/timer_screen.dart';
 
-const int _kFreeCardLimit = 5;
 
 class DeckScreen extends ConsumerStatefulWidget {
   const DeckScreen({super.key});
@@ -98,11 +96,6 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
 
   Future<void> _openAddFlow() async {
     final cards = ref.read(cardsProvider);
-    final isPro = PurchaseService.instance.isPro;
-    if (cards.length >= _kFreeCardLimit && !isPro) {
-      _showPaywall();
-      return;
-    }
     final defaultGoal =
         cards.isNotEmpty ? _mostRecentGoal(cards) : null;
     await showModalBottomSheet<void>(
@@ -121,17 +114,6 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
     final sorted = [...cards]
       ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return sorted.first.goalLabel;
-  }
-
-  void _showPaywall() {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => const _PaywallSheet(),
-    );
   }
 
   void _enterJustOneMode() {
@@ -839,78 +821,3 @@ class _AddCardSheetState extends ConsumerState<_AddCardSheet> {
   }
 }
 
-// ─── Paywall Sheet ────────────────────────────────────────────────────────────
-
-class _PaywallSheet extends StatefulWidget {
-  const _PaywallSheet();
-
-  @override
-  State<_PaywallSheet> createState() => _PaywallSheetState();
-}
-
-class _PaywallSheetState extends State<_PaywallSheet> {
-  bool _buying = false;
-
-  Future<void> _buy() async {
-    setState(() => _buying = true);
-    final success = await PurchaseService.instance.buyPro();
-    if (mounted) {
-      setState(() => _buying = false);
-      if (success) Navigator.of(context).pop();
-    }
-  }
-
-  Future<void> _restore() async {
-    setState(() => _buying = true);
-    await PurchaseService.instance.restorePurchases();
-    if (mounted) setState(() => _buying = false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.page),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Unlock the full deck.',
-            style: AppTextStyles.headline,
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          const Text(
-            'No subscription. No account. Yours forever.',
-            style: AppTextStyles.bodyMuted,
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: _buying ? null : _buy,
-              child: _buying
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: AppColors.background,
-                      ),
-                    )
-                  : const Text('\$4.99 — Unlock Pro'),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          SizedBox(
-            width: double.infinity,
-            child: TextButton(
-              onPressed: _buying ? null : _restore,
-              child: const Text('Restore purchase'),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-        ],
-      ),
-    );
-  }
-}

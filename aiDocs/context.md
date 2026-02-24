@@ -47,12 +47,10 @@ MVP is done when a user can go from cold launch to haptic completion in under 90
 
 ## Current Focus
 
-- [ ] Set up Flutter project structure
-- [ ] Build Welcome screen
-- [ ] Build Onboarding flow (1A → 1B → Confirmation)
-- [ ] Build Timer screen with haptic
-- [ ] Build Deck View with local persistence
-- [ ] End-to-end demo loop working on device
+Phases 0–3 are complete and archived in `ai/roadmaps/complete/`.
+
+**Phase 4 — Future Planning** is the next phase (deferred until real user feedback exists).
+See: `ai/roadmaps/2026-02-19-phase-4-future-planning.md`
 
 ---
 
