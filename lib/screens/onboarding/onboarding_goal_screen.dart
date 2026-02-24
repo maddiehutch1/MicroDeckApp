@@ -23,9 +23,7 @@ class _OnboardingGoalScreenState extends State<OnboardingGoalScreen> {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => OnboardingActionScreen(goal: text),
-      ),
+      MaterialPageRoute(builder: (_) => OnboardingActionScreen(goal: text)),
     );
   }
 
@@ -44,10 +42,16 @@ class _OnboardingGoalScreenState extends State<OnboardingGoalScreen> {
                 button: true,
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back, color: AppColors.textMuted),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.textMuted,
+                  ),
                   padding: EdgeInsets.zero,
                   iconSize: 24,
-                  constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+                  constraints: const BoxConstraints(
+                    minWidth: 44,
+                    minHeight: 44,
+                  ),
                 ),
               ),
               const Spacer(flex: 2),
@@ -82,8 +86,9 @@ class _OnboardingGoalScreenState extends State<OnboardingGoalScreen> {
                   button: true,
                   label: 'Next',
                   child: FilledButton(
-                    onPressed:
-                        _controller.text.trim().isEmpty ? null : _advance,
+                    onPressed: _controller.text.trim().isEmpty
+                        ? null
+                        : _advance,
                     child: const Text('Next →'),
                   ),
                 ),

@@ -101,7 +101,8 @@ class CardRepository {
     final db = await getDatabase();
     final sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
     final since = DateTime.now().millisecondsSinceEpoch - sevenDaysMs;
-    final rows = await db.rawQuery('''
+    final rows = await db.rawQuery(
+      '''
       SELECT c.* FROM cards c
       INNER JOIN (
         SELECT cardId, COUNT(*) as deferCount
@@ -111,7 +112,9 @@ class CardRepository {
         HAVING deferCount >= 3
       ) d ON c.id = d.cardId
       WHERE c.isArchived = 0
-    ''', [since]);
+    ''',
+      [since],
+    );
     return rows.map(CardModel.fromMap).toList();
   }
 

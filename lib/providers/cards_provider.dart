@@ -50,5 +50,6 @@ class CardsNotifier extends Notifier<List<CardModel>> {
   }
 }
 
-final cardsProvider =
-    NotifierProvider<CardsNotifier, List<CardModel>>(CardsNotifier.new);
+final cardsProvider = NotifierProvider<CardsNotifier, List<CardModel>>(
+  CardsNotifier.new,
+);

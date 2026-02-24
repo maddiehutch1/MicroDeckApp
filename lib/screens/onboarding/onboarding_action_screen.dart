@@ -26,10 +26,8 @@ class _OnboardingActionScreenState extends State<OnboardingActionScreen> {
     if (text.isEmpty) return;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => OnboardingConfirmScreen(
-          goal: widget.goal,
-          action: text,
-        ),
+        builder: (_) =>
+            OnboardingConfirmScreen(goal: widget.goal, action: text),
       ),
     );
   }
@@ -49,10 +47,16 @@ class _OnboardingActionScreenState extends State<OnboardingActionScreen> {
                 button: true,
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back, color: AppColors.textMuted),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.textMuted,
+                  ),
                   padding: EdgeInsets.zero,
                   iconSize: 24,
-                  constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+                  constraints: const BoxConstraints(
+                    minWidth: 44,
+                    minHeight: 44,
+                  ),
                 ),
               ),
               const Spacer(flex: 1),
@@ -94,8 +98,9 @@ class _OnboardingActionScreenState extends State<OnboardingActionScreen> {
                   button: true,
                   label: "Let's go",
                   child: FilledButton(
-                    onPressed:
-                        _controller.text.trim().isEmpty ? null : _advance,
+                    onPressed: _controller.text.trim().isEmpty
+                        ? null
+                        : _advance,
                     child: const Text("Let's go →"),
                   ),
                 ),

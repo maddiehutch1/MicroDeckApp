@@ -9,7 +9,6 @@ import '../../theme.dart';
 import '../settings/settings_screen.dart';
 import '../timer/timer_screen.dart';
 
-
 class DeckScreen extends ConsumerStatefulWidget {
   const DeckScreen({super.key});
 
@@ -51,16 +50,17 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
       await _checkArchivePrompts();
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not load cards.')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Could not load cards.')));
       }
     }
   }
 
   Future<void> _checkArchivePrompts() async {
-    final candidates =
-        await ref.read(cardsProvider.notifier).getCardsNeedingArchivePrompt();
+    final candidates = await ref
+        .read(cardsProvider.notifier)
+        .getCardsNeedingArchivePrompt();
     if (candidates.isNotEmpty && mounted) {
       _showArchivePrompt(candidates.first);
     }
@@ -77,8 +77,7 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
         ),
         builder: (_) => _ArchivePromptSheet(
           card: card,
-          onRest: () =>
-              ref.read(cardsProvider.notifier).archiveCard(card.id),
+          onRest: () => ref.read(cardsProvider.notifier).archiveCard(card.id),
         ),
       );
     });
@@ -96,8 +95,7 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
 
   Future<void> _openAddFlow() async {
     final cards = ref.read(cardsProvider);
-    final defaultGoal =
-        cards.isNotEmpty ? _mostRecentGoal(cards) : null;
+    final defaultGoal = cards.isNotEmpty ? _mostRecentGoal(cards) : null;
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -133,9 +131,7 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
 
     return Scaffold(
       body: SafeArea(
-        child: _justOneMode
-            ? _buildJustOneMode(cards)
-            : _buildDeckView(cards),
+        child: _justOneMode ? _buildJustOneMode(cards) : _buildDeckView(cards),
       ),
       floatingActionButton: _justOneMode
           ? null
@@ -168,8 +164,9 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
                 const SizedBox(width: AppSpacing.xs),
                 Text(
                   '${cards.length}',
-                  style: AppTextStyles.screenTitle
-                      .copyWith(color: AppColors.textFaint),
+                  style: AppTextStyles.screenTitle.copyWith(
+                    color: AppColors.textFaint,
+                  ),
                 ),
               ],
               const Spacer(),
@@ -184,8 +181,10 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
                       color: AppColors.textFaint,
                       size: 20,
                     ),
-                    constraints:
-                        const BoxConstraints(minWidth: 44, minHeight: 44),
+                    constraints: const BoxConstraints(
+                      minWidth: 44,
+                      minHeight: 44,
+                    ),
                     padding: EdgeInsets.zero,
                   ),
                 ),
@@ -204,8 +203,10 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
                     color: AppColors.textFaint,
                     size: 20,
                   ),
-                  constraints:
-                      const BoxConstraints(minWidth: 44, minHeight: 44),
+                  constraints: const BoxConstraints(
+                    minWidth: 44,
+                    minHeight: 44,
+                  ),
                   padding: EdgeInsets.zero,
                 ),
               ),
@@ -233,7 +234,10 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
                           color: AppColors.surfaceHigh,
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        child: const Text('Later', style: AppTextStyles.bodyMuted),
+                        child: const Text(
+                          'Later',
+                          style: AppTextStyles.bodyMuted,
+                        ),
                       ),
                       onDismissed: (_) {
                         ref.read(cardsProvider.notifier).deferCard(card.id);
@@ -256,10 +260,7 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              "That's all of them.",
-              style: AppTextStyles.bodyMuted,
-            ),
+            const Text("That's all of them.", style: AppTextStyles.bodyMuted),
             const SizedBox(height: AppSpacing.md),
             TextButton(
               onPressed: _exitJustOneMode,
@@ -292,8 +293,10 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
                   child: IconButton(
                     onPressed: _exitJustOneMode,
                     icon: const Icon(Icons.close, color: AppColors.textFaint),
-                    constraints:
-                        const BoxConstraints(minWidth: 44, minHeight: 44),
+                    constraints: const BoxConstraints(
+                      minWidth: 44,
+                      minHeight: 44,
+                    ),
                     padding: EdgeInsets.zero,
                   ),
                 ),
@@ -304,8 +307,7 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
           GestureDetector(
             onTap: () {}, // Absorb taps on the card itself
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: AppSpacing.page),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.page),
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(AppSpacing.md),
@@ -331,8 +333,7 @@ class _DeckScreenState extends ConsumerState<DeckScreen>
           ),
           const SizedBox(height: AppSpacing.lg),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppSpacing.page),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.page),
             child: Row(
               children: [
                 Expanded(
@@ -430,8 +431,7 @@ class _CardTile extends StatelessWidget {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      if (card.goalLabel != null &&
-                          card.goalLabel!.isNotEmpty)
+                      if (card.goalLabel != null && card.goalLabel!.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 6),
                           child: Text(
@@ -468,10 +468,7 @@ class _CardTile extends StatelessWidget {
 // ─── Archive Prompt Sheet ─────────────────────────────────────────────────────
 
 class _ArchivePromptSheet extends StatelessWidget {
-  const _ArchivePromptSheet({
-    required this.card,
-    required this.onRest,
-  });
+  const _ArchivePromptSheet({required this.card, required this.onRest});
 
   final CardModel card;
   final VoidCallback onRest;
@@ -489,10 +486,7 @@ class _ArchivePromptSheet extends StatelessWidget {
             style: AppTextStyles.headline,
           ),
           const SizedBox(height: AppSpacing.xs),
-          Text(
-            card.actionLabel,
-            style: AppTextStyles.bodyMuted,
-          ),
+          Text(card.actionLabel, style: AppTextStyles.bodyMuted),
           const SizedBox(height: AppSpacing.lg),
           SizedBox(
             width: double.infinity,
@@ -598,9 +592,7 @@ class _TemplateBrowserSheet extends StatelessWidget {
                       ),
                       child: Text(
                         area,
-                        style: AppTextStyles.label.copyWith(
-                          letterSpacing: 0.8,
-                        ),
+                        style: AppTextStyles.label.copyWith(letterSpacing: 0.8),
                       ),
                     ),
                     for (final t in starterTemplates.where(
@@ -648,8 +640,9 @@ class _TemplateRow extends StatelessWidget {
                 children: [
                   Text(
                     template.actionLabel,
-                    style: AppTextStyles.body
-                        .copyWith(color: AppColors.textPrimary),
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(template.goalLabel, style: AppTextStyles.cardGoal),
@@ -777,8 +770,9 @@ class _AddCardSheetState extends ConsumerState<_AddCardSheet> {
               const Spacer(),
               Text(
                 '${_durationMinutes.round()} min',
-                style: AppTextStyles.label
-                    .copyWith(color: AppColors.textPrimary),
+                style: AppTextStyles.label.copyWith(
+                  color: AppColors.textPrimary,
+                ),
               ),
             ],
           ),
@@ -798,10 +792,9 @@ class _AddCardSheetState extends ConsumerState<_AddCardSheet> {
               button: true,
               label: 'Save card',
               child: FilledButton(
-                onPressed:
-                    (_actionController.text.trim().isEmpty || _saving)
-                        ? null
-                        : _save,
+                onPressed: (_actionController.text.trim().isEmpty || _saving)
+                    ? null
+                    : _save,
                 child: _saving
                     ? const SizedBox(
                         height: 20,
@@ -820,4 +813,3 @@ class _AddCardSheetState extends ConsumerState<_AddCardSheet> {
     );
   }
 }
-

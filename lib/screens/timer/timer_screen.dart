@@ -138,7 +138,8 @@ class _TimerScreenState extends State<TimerScreen>
   Future<void> _maybeRequestNotificationPermission() async {
     try {
       final prefs = SharedPreferencesAsync();
-      final asked = await prefs.getBool('hasAskedNotificationPermission') ?? false;
+      final asked =
+          await prefs.getBool('hasAskedNotificationPermission') ?? false;
       if (asked) return;
       await prefs.setBool('hasAskedNotificationPermission', true);
       await NotificationService.instance.requestPermission();
@@ -164,10 +165,9 @@ class _TimerScreenState extends State<TimerScreen>
   }
 
   void _goToDeck() {
-    Navigator.of(context).pushAndRemoveUntil(
-      fadeRoute(const DeckScreen()),
-      (route) => false,
-    );
+    Navigator.of(
+      context,
+    ).pushAndRemoveUntil(fadeRoute(const DeckScreen()), (route) => false);
   }
 
   String _formatTime(int seconds) {
@@ -202,8 +202,7 @@ class _TimerScreenState extends State<TimerScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                 child: Text(
                   widget.card.actionLabel,
                   textAlign: TextAlign.center,

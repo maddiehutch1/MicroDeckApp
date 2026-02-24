@@ -56,10 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           'Delete permanently?',
           style: TextStyle(color: AppColors.textPrimary),
         ),
-        content: Text(
-          card.actionLabel,
-          style: AppTextStyles.bodyMuted,
-        ),
+        content: Text(card.actionLabel, style: AppTextStyles.bodyMuted),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -79,9 +76,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await _load();
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not delete card.')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Could not delete card.')));
       }
     }
   }
@@ -112,8 +109,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         color: AppColors.textMuted,
                       ),
                       padding: EdgeInsets.zero,
-                      constraints:
-                          const BoxConstraints(minWidth: 44, minHeight: 44),
+                      constraints: const BoxConstraints(
+                        minWidth: 44,
+                        minHeight: 44,
+                      ),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.xs),
@@ -141,25 +140,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     )
                   : _archived.isEmpty
-                      ? Center(
-                          child: Text(
-                            'No resting cards.',
-                            style: AppTextStyles.bodyMuted,
-                          ),
-                        )
-                      : ListView.builder(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: AppSpacing.xs,
-                          ),
-                          itemCount: _archived.length,
-                          itemBuilder: (_, i) =>
-                              _ArchivedCardRow(
-                                card: _archived[i],
-                                onRestore: () => _restore(_archived[i]),
-                                onDelete: () => _delete(_archived[i]),
-                              ),
-                        ),
+                  ? Center(
+                      child: Text(
+                        'No resting cards.',
+                        style: AppTextStyles.bodyMuted,
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
+                      ),
+                      itemCount: _archived.length,
+                      itemBuilder: (_, i) => _ArchivedCardRow(
+                        card: _archived[i],
+                        onRestore: () => _restore(_archived[i]),
+                        onDelete: () => _delete(_archived[i]),
+                      ),
+                    ),
             ),
           ],
         ),

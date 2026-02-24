@@ -3,11 +3,28 @@ import 'package:sqflite/sqflite.dart';
 
 Database? _db;
 
+/// Test-only: override the database path (e.g. inMemoryDatabasePath).
+/// Must be called before any [getDatabase] invocation in the test.
+String? _testDbPath;
+
+void setDatabasePathForTesting(String path) {
+  _testDbPath = path;
+  _db = null;
+}
+
+/// Test-only: close and forget the current database instance so each test
+/// starts with a clean slate.
+Future<void> resetDatabaseForTesting() async {
+  await _db?.close();
+  _db = null;
+  _testDbPath = null;
+}
+
 Future<Database> getDatabase() async {
   if (_db != null) return _db!;
-  final dbPath = await getDatabasesPath();
+  final path = _testDbPath ?? join(await getDatabasesPath(), 'microdeck.db');
   _db = await openDatabase(
-    join(dbPath, 'microdeck.db'),
+    path,
     version: 3,
     onCreate: (db, version) async {
       await db.execute('''

@@ -57,10 +57,7 @@ abstract final class AppTextStyles {
     color: AppColors.textPrimary,
     height: 1.3,
   );
-  static const cardGoal = TextStyle(
-    fontSize: 13,
-    color: AppColors.textMuted,
-  );
+  static const cardGoal = TextStyle(fontSize: 13, color: AppColors.textMuted);
   static const contextLabel = TextStyle(
     fontSize: 14,
     color: AppColors.textFaint,
@@ -83,10 +80,7 @@ abstract final class AppTextStyles {
     color: AppColors.textPrimary,
     letterSpacing: 0.5,
   );
-  static const button = TextStyle(
-    fontSize: 17,
-    fontWeight: FontWeight.w600,
-  );
+  static const button = TextStyle(fontSize: 17, fontWeight: FontWeight.w600);
   static const buttonMuted = TextStyle(fontSize: 17);
   static const label = TextStyle(
     fontSize: 12,

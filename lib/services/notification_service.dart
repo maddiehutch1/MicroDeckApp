@@ -64,7 +64,8 @@ class NotificationService {
   Future<bool> requestPermission() async {
     final ios = _plugin
         .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>();
+          IOSFlutterLocalNotificationsPlugin
+        >();
     if (ios != null) {
       final granted = await ios.requestPermissions(
         alert: true,
@@ -76,7 +77,8 @@ class NotificationService {
 
     final android = _plugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     if (android != null) {
       final granted = await android.requestNotificationsPermission();
       return granted ?? false;
@@ -106,11 +108,9 @@ class NotificationService {
 
       final instances = _nextOccurrences(schedule, 8);
       for (final time in instances) {
-        upcoming.add(_ScheduledInstance(
-          schedule: schedule,
-          card: card,
-          time: time,
-        ));
+        upcoming.add(
+          _ScheduledInstance(schedule: schedule, card: card, time: time),
+        );
       }
     }
 

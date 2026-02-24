@@ -41,8 +41,8 @@ class _AppState extends State<App> {
       home: _hasCompletedOnboarding == null
           ? const Scaffold(body: SizedBox.shrink())
           : _hasCompletedOnboarding!
-              ? const DeckScreen()
-              : const WelcomeScreen(),
+          ? const DeckScreen()
+          : const WelcomeScreen(),
     );
   }
 }

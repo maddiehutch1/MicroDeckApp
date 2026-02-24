@@ -9,10 +9,7 @@ class ScheduleRepository {
 
   Future<List<ScheduleModel>> getAllActiveSchedules() async {
     final db = await getDatabase();
-    final rows = await db.query(
-      'schedules',
-      where: 'isActive = 1',
-    );
+    final rows = await db.query('schedules', where: 'isActive = 1');
     return rows.map(ScheduleModel.fromMap).toList();
   }
 

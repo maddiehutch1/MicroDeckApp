@@ -46,7 +46,9 @@ class _OnboardingConfirmScreenState
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Something went wrong. Please try again.')),
+          const SnackBar(
+            content: Text('Something went wrong. Please try again.'),
+          ),
         );
       }
       return null;
@@ -62,10 +64,9 @@ class _OnboardingConfirmScreenState
       setState(() => _submitting = false);
       return;
     }
-    Navigator.of(context).pushAndRemoveUntil(
-      fadeRoute(TimerScreen(card: card)),
-      (route) => false,
-    );
+    Navigator.of(
+      context,
+    ).pushAndRemoveUntil(fadeRoute(TimerScreen(card: card)), (route) => false);
   }
 
   Future<void> _saveLater() async {
@@ -77,10 +78,9 @@ class _OnboardingConfirmScreenState
       setState(() => _submitting = false);
       return;
     }
-    Navigator.of(context).pushAndRemoveUntil(
-      fadeRoute(const DeckScreen()),
-      (route) => false,
-    );
+    Navigator.of(
+      context,
+    ).pushAndRemoveUntil(fadeRoute(const DeckScreen()), (route) => false);
   }
 
   @override
@@ -97,12 +97,19 @@ class _OnboardingConfirmScreenState
                 label: 'Back',
                 button: true,
                 child: IconButton(
-                  onPressed:
-                      _submitting ? null : () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back, color: AppColors.textMuted),
+                  onPressed: _submitting
+                      ? null
+                      : () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.textMuted,
+                  ),
                   padding: EdgeInsets.zero,
                   iconSize: 24,
-                  constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+                  constraints: const BoxConstraints(
+                    minWidth: 44,
+                    minHeight: 44,
+                  ),
                 ),
               ),
               const Spacer(flex: 2),
@@ -118,10 +125,7 @@ class _OnboardingConfirmScreenState
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(
-                  widget.action,
-                  style: AppTextStyles.cardAction,
-                ),
+                child: Text(widget.action, style: AppTextStyles.cardAction),
               ),
               const Spacer(flex: 3),
               SizedBox(
