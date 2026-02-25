@@ -26,7 +26,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('Core loop — first launch', () {
-    testWidgets('completes full onboarding flow and reaches deck', (tester) async {
+    testWidgets('completes full onboarding flow and reaches deck', (
+      tester,
+    ) async {
       await _clearState();
       app.main();
       await tester.pumpAndSettle();
@@ -68,7 +70,9 @@ void main() {
   });
 
   group('Deck — add card via FAB', () {
-    testWidgets('opens template browser when FAB is tapped on deck', (tester) async {
+    testWidgets('opens template browser when FAB is tapped on deck', (
+      tester,
+    ) async {
       await _setOnboardingComplete();
       app.main();
       await tester.pumpAndSettle();
@@ -82,7 +86,9 @@ void main() {
   });
 
   group('Deck — swipe to defer', () {
-    testWidgets('swiping a card left removes it from visible list', (tester) async {
+    testWidgets('swiping a card left removes it from visible list', (
+      tester,
+    ) async {
       await _setOnboardingComplete();
       app.main();
       await tester.pumpAndSettle();
@@ -122,9 +128,9 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Only run if there is a card to tap
-      if (find.byType(ListTile).evaluate().isNotEmpty) {
-        await tester.tap(find.byType(ListTile).first);
+      // Deck uses Dismissible (not ListTile) for each card
+      if (find.byType(Dismissible).evaluate().isNotEmpty) {
+        await tester.tap(find.byType(Dismissible).first);
         await tester.pumpAndSettle();
 
         // Timer screen shows a MM:SS countdown

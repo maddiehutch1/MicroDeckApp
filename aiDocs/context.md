@@ -20,6 +20,7 @@ Core philosophy: **one card, two minutes, no judgment.**
 | Architecture | `aiDocs/architecture.md` | Tech stack, verified packages, data models, folder structure, hard constraints |
 | Market Research | `ai/guides/habit-help-market-research.md` | Competitive landscape, risks, positioning |
 | Changelog | `ai/changelog.md` | Changelog with brief notes about each change to the codebase |
+| CLI Test Plan | `aiDocs/cliTestPlan.md` | Feature-to-test matrix, CLI commands, gap analysis, emulator setup, state reset strategy |
 
 ---
 
@@ -51,6 +52,8 @@ Phases 0–3 are complete and archived in `ai/roadmaps/complete/`.
 
 **Phase 4 — Future Planning** is the next phase (deferred until real user feedback exists).
 See: `ai/roadmaps/2026-02-19-phase-4-future-planning.md`
+
+**CLI Testing Infrastructure** is complete. Run `.\\scripts\\test.ps1` (Windows) or `bash scripts/test.sh` (Mac/Linux). See `TEST_README.md` and `ai/roadmaps/complete/2026-02-21-extra-cli-testing.md`.
 
 ---
 

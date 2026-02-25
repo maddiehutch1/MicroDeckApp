@@ -265,5 +265,6 @@ Follow the existing patterns:
 | `flutter test` exits 0 but no tests ran | Check that test files end in `_test.dart` |
 | `sqflite_common_ffi` not found | Run `flutter pub get` |
 | Integration test hangs | Ensure emulator is fully booted before running |
+| Gradle `copyFlutterAssetsDebug` fails / `NativeAssetsManifest.json` missing | Run `flutter clean`, then `flutter pub get`, then retry |
 | Widget test fails with "No MediaQuery widget found" | Wrap widget in `MaterialApp` in test |
 | `SharedPreferences` MissingPluginException in widget test | Add `SharedPreferences.setMockInitialValues({})` in `setUp` |
